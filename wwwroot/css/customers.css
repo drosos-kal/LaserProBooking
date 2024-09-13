@@ -1,0 +1,10 @@
+﻿/*.selected {
+            background-color: black !important;
+        }*/
+#editButton, #deleteButton, #saveChanges {
+    font-size: 1.3rem;
+}
+
+.ascending-number {
+    opacity: 0.5;
+}

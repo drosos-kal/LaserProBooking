@@ -1,0 +1,81 @@
+﻿@viewModel BeautySalonBookingSystem.ViewModels.MasterPageViewModel, BeautySalonBookingSystem
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Laser Pro</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/masterPage.css">
+    <dot:ContentPlaceHolder ID="TopScriptContent" />
+</head>
+<body>
+
+    <%-- Navbar --%>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="navbar-brand">
+                <img class="ms-3" src="/Resources/Images/logo.webp">
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <dot:AuthenticatedView>
+                <AuthenticatedTemplate>
+                    <div class="collapse navbar-collapse" ID="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="/">ΗΜΕΡΟΛΟΓΙΟ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/customers">ΠΕΛΑΤΕΣ</a>
+                            </li>
+                            <dot:RoleView Roles="admin">
+                                <IsMemberTemplate>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/admin">Admin</a>
+                                    </li>
+                                </IsMemberTemplate>
+                            </dot:RoleView>
+                        </ul>
+                        <div class="float-end d-flex flex-column me-3">
+                            <span>Εχετε συνδεθει ως: {{value: SignedInUser}}</span>
+                            <dot:Button class="btn btn-outline-secondary" Click="{command: SignOut()}" Text="Αποσυνδεση"></dot:Button>
+                        </div>
+                        
+                    </div>
+                </AuthenticatedTemplate>
+            </dot:AuthenticatedView>
+
+        </div>
+    </nav>
+
+    <dot:ContentPlaceHolder ID="MainContent" />
+
+
+    <%-- Change active navbar --%>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var path = window.location.pathname;
+            var navbarLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            navbarLinks.forEach(function (link) {
+                if (link.getAttribute('href') === path) {
+                    link.classList.add('active'); 
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+
+    <%-- Global scripts --%>
+    <script src="/lib/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <dot:ContentPlaceHolder ID="BottomScriptContent" />
+</body>
+</html>

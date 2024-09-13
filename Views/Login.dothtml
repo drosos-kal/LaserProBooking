@@ -1,0 +1,50 @@
+﻿@viewModel BeautySalonBookingSystem.ViewModels.LoginViewModel, BeautySalonBookingSystem
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="TopScriptContent">
+    <style>
+        .authError {
+            color: indianred;
+        }
+    </style>
+
+</dot:Content>
+<dot:Content ContentPlaceHolderID="MainContent">
+
+    <div class="d-flex justify-content-center mt-5">
+        <div class="card p-5 w-25">
+            <h4>Συνδεση χρηστη</h4>
+            <form>
+                <label class="form-label">Username</label>
+                <dot:TextBox class="form-control" Text="{value: Username}" />
+                <label class="form-label">Password</label>
+                <dot:TextBox class="form-control" Type="Password" Text="{value: Password}" />
+                <div Visible="{value: !string.IsNullOrEmpty(ErrorMessage)}" ID="loginValidation" class="authError mt-2">
+                    {{value: ErrorMessage}}
+                </div>
+                <dot:Button ID="signIn" class="btn btn-outline-secondary mt-2" Text="Είσοδος" Click="{command: SignIn()}" IsSubmitButton="true"></dot:Button>
+            </form>
+        </div>
+    </div>
+   
+
+
+</dot:Content>
+<dot:Content ContentPlaceHolderID="BottomScriptContent">
+
+    <script>
+
+
+                $(document).ready(function () {
+            //$('#loginValidation').hide();
+
+            $('.form-control').on('input', function () {
+                //$('#loginValidation').hide();
+/*                $('#loginValidation').text('');
+*/            });
+            //$('#signIn').on('click', function () {
+            //    $('#loginValidation').show();
+            //});
+        });
+    </script>
+</dot:Content>

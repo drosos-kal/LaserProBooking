@@ -1,0 +1,244 @@
+﻿@viewModel BeautySalonBookingSystem.ViewModels.CustomersViewModel, BeautySalonBookingSystem
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="TopScriptContent">
+    <link rel="stylesheet" href="/css/customers.css">
+    <link rel="stylesheet" href="/lib/DataTables/datatables.min.css">
+</dot:Content>
+<dot:Content ContentPlaceHolderID="MainContent">
+
+    <div class="p-5">
+
+        <table ID="myTable" class="display">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <%-- Add Customer Modal --%>
+    <div class="modal modal-lg fade" ID="addCustomerModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" ID="addModalLabel">ΠΡΟΣΘΗΚΗ ΠΕΛΑΤΗ</h5>
+                </div>
+                <form ID="createCustomerForm" class="row g-3 needs-validation" novalidate>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Όνομα</label>
+                                <dot:TextBox class="form-control" Text="{value: ProjectedCustomer.Firstname}" required />
+                                <div class="invalid-feedback">
+                                    Υποχρεωτικό πεδίο
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Επίθετο</label>
+                                <dot:TextBox class="form-control" Text="{value: ProjectedCustomer.Lastname}" required />
+                                <div class="invalid-feedback">
+                                    Υποχρεωτικό πεδίο
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="form-label">Τηλέφωνο</label>
+                                <dot:TextBox class="form-control" Text="{value: ProjectedCustomer.MobileNumber}" required />
+                                <div class="invalid-feedback">
+                                    Υποχρεωτικό πεδίο
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <label class="form-label">E-mail</label>
+                                <dot:TextBox Type="Email" class="form-control" Text="{value: ProjectedCustomer.Email}" />
+                                <div class="invalid-feedback">
+                                    Εισάγετε μια έγκυρη διεύθυνση e-mail
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label">Ημ. Γέννησης</label>
+                                <dot:TextBox ID="dobPicker" Type="Date" class="form-control" Text="{value: ProjectedCustomer.Age}" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Φύλλο</label>
+                                <dot:ComboBox class="form-select" DataSource="{value: ComboBoxGenders}"
+                                              SelectedValue="{value: ProjectedCustomer.Gender}"
+                                              ItemValueBinding="{value: Id}"
+                                              ItemTextBinding="{value: Gender}"
+                                              EmptyItemText="Επιλέξτε" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Αγωγή</label>
+                                <dot:TextBox class="form-control" Text="{value: ProjectedCustomer.Medication}" />
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Διεύθυνση</label>
+                                <dot:TextBox class="form-control" Text="{value: ProjectedCustomer.Address}" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Πόλη</label>
+                                <dot:TextBox class="form-control" Text="{value: ProjectedCustomer.City}" />
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Τ.Κ.</label>
+                                <dot:TextBox class="form-control" Text="{value: ProjectedCustomer.PostalCode}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <dot:Button type="button" data-bs-dismiss="modal" Click="{command: ClearForm()}" class="btn btn-dark">ΑΚΥΡΩΣΗ</dot:Button>
+                        <button ID="createCustomerValidation" class="btn btn-dark">Αποθηκευση</button>
+
+                        <%-- Hidden Button --%>
+                        <dot:Button ID="createCustomer" Click="{command: CreateCustomer()}" PostBack.Update="false" class="btn btn-dark" data-bs-dismiss="modal" style="display:none;"></dot:Button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal modal-xl fade" ID="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" ID="editModalLabel">ΚΑΡΤΕΛΑ ΠΕΛΑΤΗ</h5>
+                </div>
+                <div class="modal-body ">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form ID="editCustomerForm" class="row g-3 ms-2 needs-validation" novalidate>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Όνομα</label>
+                                        <dot:TextBox class="form-control enable-input" Text="{value: ProjectedCustomer.Firstname}" disabled required />
+                                        <div class="invalid-feedback">
+                                            Υποχρεωτικό πεδίο
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Επίθετο</label>
+                                        <dot:TextBox class="form-control enable-input" Text="{value: ProjectedCustomer.Lastname}" disabled required />
+                                        <div class="invalid-feedback">
+                                            Υποχρεωτικό πεδίο
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label class="form-label">Τηλέφωνο</label>
+                                        <dot:TextBox class="form-control enable-input" Text="{value: ProjectedCustomer.MobileNumber}" disabled required />
+                                        <div class="invalid-feedback">
+                                            Υποχρεωτικό πεδίο
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <label class="form-label">E-mail</label>
+                                        <dot:TextBox Type="Email" class="form-control enable-input" Text="{value: ProjectedCustomer.Email}" disabled />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Ημ. Γέννησης</label>
+                                        <dot:TextBox ID="dobPicker" Type="Date" class="form-control enable-input" Text="{value: ProjectedCustomer.Age}" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Φύλλο</label>
+                                        <dot:ComboBox class="form-select enable-input" DataSource="{value: ComboBoxGenders}"
+                                                      SelectedValue="{value: ProjectedCustomer.Gender}"
+                                                      ItemValueBinding="{value: Id}"
+                                                      ItemTextBinding="{value: Gender}"
+                                                      EmptyItemText="Επιλέξτε" disabled />
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Αγωγή</label>
+                                        <dot:TextBox class="form-control enable-input" Text="{value: ProjectedCustomer.Medication}" disabled />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Διεύθυνση</label>
+                                        <dot:TextBox class="form-control enable-input" Text="{value: ProjectedCustomer.Address}" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Πόλη</label>
+                                        <dot:TextBox class="form-control enable-input" Text="{value: ProjectedCustomer.City}" disabled />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Τ.Κ.</label>
+                                        <dot:TextBox class="form-control enable-input" Text="{value: ProjectedCustomer.PostalCode}" disabled />
+                                    </div>
+                                </div>
+                                <div>
+                                    <button ID="editButton" type="button" class="btn btn-info"><i class="bi bi-pencil-square"></i></button>
+                                    <button ID="saveChanges" class="btn btn-info" style="display:none;"><i class="bi bi-check-square"></i></button>
+
+                                    <%-- Hidden Button --%>
+                                    <dot:Button ID="saveChangesValidated" style="display:none;" ButtonTagName="button" Click="{command: EditCustomer()}" class="btn btn-info"></dot:Button>
+
+
+                                    <dot:Button ID="deleteButton" type="button" ButtonTagName="button" data-bs-dismiss="modal" Click="{command: DeleteCustomer()}" class="btn btn-danger">
+                                        <PostBack.Handlers>
+                                            <dot:ConfirmPostBackHandler Message="Θέλετε σίγουρα να διαγράψετε αυτήν την καρτέλα?" />
+                                        </PostBack.Handlers><i class="bi bi-trash3"></i>
+                                    </dot:Button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <label class="form-label">Σχόλια </label>
+                                <dot:TextBox class="form-control enable-input" Type="MultiLine" Text="{value: ProjectedCustomer.AdditionalComments}" disabled></dot:TextBox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%-- Therapies gridview --%>
+                    <h5 class="m-5" Visible="{value: ProjectedCustomer.Therapies == null || ProjectedCustomer.Therapies.Count <= 0}">
+                        -- ΔΕΝ ΥΠΑΡΧΟΥΝ ΚΑΤΑΓΕΓΡΑΜΜΕΝΕΣ ΘΕΡΑΠΕΙΕΣ --
+                    </h5>
+                    <dot:GridView DataSource="{value: ProjectedCustomer.Therapies}" class="table mt-3">
+                        <Columns>
+                            <dot:GridViewTextColumn CssClass="ascending-number" ValueBinding="{value: _collection.Index + 1}" HeaderText="" Width="10px" />
+                            <dot:GridViewTextColumn ValueBinding="{value: Title}" HeaderText="ΠΕΡΙΟΧΗ ΘΕΡΑΠΕΙΑΣ" />
+                            <dot:GridViewTextColumn ValueBinding="{value: TherapistName}" HeaderText="ΧΕΙΡΙΣΤΗΣ" />
+                            <dot:GridViewTextColumn ValueBinding="{value: StartDate}" FormatString="dd/MM/yy HH:mm" HeaderText="ΗΜΕΡΟΜΗΝΙΑ" />
+                            <dot:GridViewTextColumn ValueBinding="{value: BeamDiameter}" HeaderText="ΜΕΓΕΘΟΣ ΔΕΣΜΗΣ" />
+                            <dot:GridViewTextColumn ValueBinding="{value: Energy}" HeaderText="ΕΝΕΡΓΕΙΑ" />
+                            <dot:GridViewTextColumn ValueBinding="{value: Pulses}" HeaderText="ΠΑΛΜΟΙ" />
+                            <dot:GridViewTextColumn ValueBinding="{value: AdditionalComments}" HeaderText="ΠΑΡΑΤΗΡΗΣΕΙΣ" />
+                        </Columns>
+                    </dot:GridView>
+                </div>
+                <div class="modal-footer">
+
+                    <dot:Button ID="closeModal" type="button" data-bs-dismiss="modal" Click="{command: ClearForm()}" class="btn btn-dark">ΚΛΕΙΣΙΜΟ</dot:Button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <dot:Button ID="populateModalBtn" Click="{command: PopulateModal()}" hidden></dot:Button>
+
+</dot:Content>
+<dot:Content ContentPlaceHolderID="BottomScriptContent">
+    <script src="/js/customers.js"></script>
+    <script src="lib/moment.js"></script>
+    <script src="/lib/DataTables/datatables.min.js"></script>
+</dot:Content>

@@ -1,0 +1,33 @@
+﻿@viewModel BeautySalonBookingSystem.ViewModels.AdminDashboardViewModel, BeautySalonBookingSystem
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="TopScriptContent">
+
+
+</dot:Content>
+<dot:Content ContentPlaceHolderID="MainContent">
+
+    <div class="d-flex justify-content-center mt-2">
+        <div class="card p-4 w-25">
+            <h4>Register user</h4>
+            <form>
+                <label class="form-label">Username</label>
+                <dot:TextBox class="form-control" Text="{value: Username}" />
+                <label class="form-label">Password</label>
+                <dot:TextBox class="form-control" Text="{value: Password}" />
+                <dot:Button Click="{command: Register()}" class="btn btn-outline-secondary mt-2">Register</dot:Button>
+            </form>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-2">
+        <div class="card p-4 w-25">
+            <h4>Create data backup</h4>
+            <dot:Button Click="{command: BackupNow()}" class="btn btn-outline-secondary">Backup</dot:Button>
+        </div>
+    </div>
+</dot:Content>
+<dot:Content ContentPlaceHolderID="BottomScriptContent">
+
+
+</dot:Content>
+
