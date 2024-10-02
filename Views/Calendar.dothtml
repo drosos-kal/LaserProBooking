@@ -50,16 +50,16 @@
                                             </dot:GridView>
                                         </div>
                                         <div class="col-md-6">
-                                            <dot:GridView class="form-control" DataSource="{value: TherapyTypeBuilderList}">
+                                            <dot:GridView class="form-control" DataSource="{value: ProjectedTherapy.TherapyAreas}">
                                                 <RowDecorators>
-                                                    <dot:Decorator Events.Click="{command: _root.TherapyTypeBuilder(_this, false)}"
+                                                    <dot:Decorator Events.Click="{command: _root.TherapyTypeBuilder(AreaName, false)}"
                                                                    class="clickable" />
                                                 </RowDecorators>
                                                 <Columns>
                                                     <dot:GridViewTemplateColumn HeaderText="Επιλεγμενα">
                                                         <div>
                                                             <button class="hoverable">
-                                                                {{value: _this}}
+                                                                {{value: AreaName}}
                                                                 <i class="bi bi-dash-lg hidden-icon"></i>
                                                             </button>
                                                         </div>
@@ -74,22 +74,43 @@
                         </div>
                     </div>
                 </div>
-                <%--<div class="form-floating mb-3">
-                    <dot:TextBox ID="floatingEnergy" Type="MultiLine" class="form-control was-validated" Text="{value: ProjectedTherapy.Title}" placeholder="Περιοχή" />
-                    <label for="floatingEnergy" class="form-label">Περιοχή</label>
-                </div>--%>
-
                 <div class="form-floating mb-3">
-                    <dot:TextBox ID="floatingEnergy" class="form-control was-validated" Text="{value: ProjectedTherapy.Energy}" placeholder="Ενέργεια" />
-                    <label for="floatingEnergy" class="form-label">Ενέργεια</label>
+                    <div class="accordion" ID="accordionAddBeamDiameter" style="width: 91%">
+                        <div class="accordion-item">
+                            <p class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" >
+                                    Μέγεθος Δέσμης
+                                </button>
+                            </p>
+                            <div ID="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionAddBeamDiameter">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <dot:GridView DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                            <Columns>
+
+                                                <dot:GridViewTemplateColumn HeaderText="Περιοχή">
+                                                    <dot:TextBox class="form-control" Text="{value: AreaName}" disabled/>
+                                                </dot:GridViewTemplateColumn>
+                                                <dot:GridViewTemplateColumn HeaderText="Μέγεθος">
+                                                    <dot:TextBox class="form-control beam-input" Text="{value: BeamDiameter}" />
+                                                </dot:GridViewTemplateColumn>
+                                            </Columns>
+                                        </dot:GridView>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-floating mb-3">
                     <dot:TextBox ID="floatingPulses" class="form-control" Text="{value: ProjectedTherapy.Pulses}" placeholder="Παλμοί" />
                     <label for="floatingPulses" class="form-label">Παλμοί</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <dot:TextBox ID="floatingDiameter" class="form-control" Text="{value: ProjectedTherapy.BeamDiameter}" placeholder="Μέγεθος δέσμης" />
-                    <label for="floatingDiameter" class="form-label">Μέγεθος δέσμης</label>
+                    <dot:TextBox ID="floatingEnergy" class="form-control was-validated" Text="{value: ProjectedTherapy.Energy}" placeholder="Ενέργεια" />
+                    <label for="floatingEnergy" class="form-label">Ενέργεια</label>
                 </div>
                 <div class="form-floating mb-3">
                     <dot:TextBox ID="floatingComments" class="form-control" Text="{value: ProjectedTherapy.AdditionalComments}" placeholder="Laser" />
@@ -130,109 +151,133 @@
         </div>
 
         <%-- Edit Therapy --%>
-    <div ID="editTherapyForm" class="col-md-3 mt-4" style="display:none;">
-        <h4>
-            Αλλαγη Θεραπειας
-        </h4>
-        <div class="mb-2 fw-bold fs-4">
-            <span >
-                {{value: CustomerToAppoint}} -
-                <dot:Literal Text="{value: AppointmentDate}" FormatString="dd/MM/yyyy" />
-            </span>
-        </div>
-        <form>
-            
-            <div class="accordion" ID="accordionEditTherapy" style="width: 91%">
-                <div class="accordion-item">
-                    <p class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                            Περιοχη
-                        </button>
-                    </p>
-                    <div ID="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionEditTherapy">
-                        <div class="accordion-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <dot:GridView class="form-control" DataSource="{value: TherapyTypes}">
-                                        <RowDecorators>
-                                            <dot:Decorator Events.Click="{command: _root.TherapyTypeBuilder(_this, true)}"
-                                                           class="clickable" />
-                                        </RowDecorators>
-                                        <Columns>
-                                            <dot:GridViewTemplateColumn HeaderText="Διαθεσιμα">
-                                                <button class="hoverable">
-                                                    {{value: _this}}
-                                                    <i class="bi bi-plus-lg hidden-icon"></i>
-                                                </button>
-                                            </dot:GridViewTemplateColumn>
-                                        </Columns>
-                                    </dot:GridView>
-                                </div>
-                                <div class="col-md-6">
-                                    <dot:GridView class="form-control" DataSource="{value: TherapyTypeBuilderList}">
-                                        <RowDecorators>
-                                            <dot:Decorator Events.Click="{command: _root.TherapyTypeBuilder(_this, false)}"
-                                                           class="clickable" />
-                                        </RowDecorators>
-                                        <Columns>
-                                            <dot:GridViewTemplateColumn HeaderText="Επιλεγμενα">
-                                                <div>
+        <div ID="editTherapyForm" class="col-md-3 mt-4" style="display:none;">
+            <h4>
+                Αλλαγη Θεραπειας
+            </h4>
+            <div class="mb-2 fw-bold fs-4">
+                <span>
+                    {{value: CustomerToAppoint}} -
+                    <dot:Literal Text="{value: AppointmentDate}" FormatString="dd/MM/yyyy" />
+                </span>
+            </div>
+            <form>
+                <div class="accordion" ID="accordionEditTherapy" style="width: 91%">
+                    <div class="accordion-item">
+                        <p class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Περιοχη
+                            </button>
+                        </p>
+                        <div ID="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionEditTherapy">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <dot:GridView class="form-control" DataSource="{value: TherapyTypes}">
+                                            <RowDecorators>
+                                                <dot:Decorator Events.Click="{command: _root.TherapyTypeBuilder(_this, true)}"
+                                                               class="clickable" />
+                                            </RowDecorators>
+                                            <Columns>
+                                                <dot:GridViewTemplateColumn HeaderText="Διαθεσιμα">
                                                     <button class="hoverable">
                                                         {{value: _this}}
-                                                        <i class="bi bi-dash-lg hidden-icon"></i>
+                                                        <i class="bi bi-plus-lg hidden-icon"></i>
                                                     </button>
-                                                </div>
+                                                </dot:GridViewTemplateColumn>
+                                            </Columns>
+                                        </dot:GridView>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <dot:GridView class="form-control" DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                            <RowDecorators>
+                                                <dot:Decorator Events.Click="{command: _root.TherapyTypeBuilder(AreaName, false)}"
+                                                               class="clickable" />
+                                            </RowDecorators>
+                                            <Columns>
+                                                <dot:GridViewTemplateColumn HeaderText="Επιλεγμενα">
+                                                    <div>
+                                                        <button class="hoverable">
+                                                            {{value: AreaName}}
+                                                            <i class="bi bi-dash-lg hidden-icon"></i>
+                                                        </button>
+                                                    </div>
 
-                                            </dot:GridViewTemplateColumn>
-                                        </Columns>
-                                    </dot:GridView>
+                                                </dot:GridViewTemplateColumn>
+                                            </Columns>
+                                        </dot:GridView>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-floating mb-3 mt-3">
-                <dot:TextBox ID="floatingEnergy" class="form-control" Text="{value: ProjectedTherapy.Energy}" placeholder="Ενέργεια" />
-                <label for="floatingEnergy" class="form-label">Ενέργεια</label>
-            </div>
-            <div class="form-floating mb-3">
-                <dot:TextBox ID="floatingPulses" class="form-control" Text="{value: ProjectedTherapy.Pulses}" placeholder="Παλμοί" />
-                <label for="floatingPulses" class="form-label">Παλμοί</label>
-            </div>
-            <div class="form-floating mb-3">
-                <dot:TextBox ID="floatingDiameter" class="form-control" Text="{value: ProjectedTherapy.BeamDiameter}" placeholder="Μέγεθος δέσμης" />
-                <label for="floatingDiameter" class="form-label">Μέγεθος δέσμης</label>
-            </div>
-            <div class="form-floating mb-3">
-                <dot:TextBox ID="floatingComments" class="form-control" Text="{value: ProjectedTherapy.AdditionalComments}" placeholder="Laser" />
-                <label for="floatingComments" class="form-label">Σχόλια</label>
-            </div>
-            <div class="row mb-3 ">
-                <div class="mb-2 col-md-6">
-                    <label>Ώρα</label>
-                    <dot:ComboBox class="form-select" DataSource="{value: AppointmentHours}"
-                                  SelectedValue="{value: AppointmentTime}"
-                                  EmptyItemText="Ώρα Θεραπείας"
-                                  SelectionChanged="{command: SetAppointmentTime}" />
+                <div class="form-floating mb-3 mt-3">
+                    <div class="accordion" ID="accordionEditBeamDiameter" style="width: 91%">
+                        <div class="accordion-item">
+                            <p class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Μέγεθος Δέσμης
+                                </button>
+                            </p>
+                            <div ID="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionEditBeamDiameter">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <dot:GridView DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                            <Columns>
+                                                <dot:GridViewTemplateColumn HeaderText="Περιοχή">
+                                                    <dot:TextBox class="form-control" Text="{value: AreaName}" disabled />
+                                                </dot:GridViewTemplateColumn>
+                                                <dot:GridViewTemplateColumn HeaderText="Μέγεθος">
+                                                    <dot:TextBox class="form-control beam-input" Text="{value: BeamDiameter}" />
+                                                </dot:GridViewTemplateColumn>
+                                            </Columns>
+                                        </dot:GridView>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-2 col-md-6">
-                    <label>Χειριστής</label>
-                    <dot:ComboBox class="form-select" DataSource="{value: TherapistList}"
-                                  SelectedValue="{value: ProjectedTherapy.TherapistName}"
-                                  EmptyItemText="Χειριστής"
-                                  SelectionChanged="{command: SetAppointmentTime}" required />
+                <div class="form-floating mb-3">
+                    <dot:TextBox ID="floatingPulses" class="form-control" Text="{value: ProjectedTherapy.Pulses}" placeholder="Παλμοί" />
+                    <label for="floatingPulses" class="form-label">Παλμοί</label>
                 </div>
-            </div>
-            <dot:Button class="btn btn-dark" Click="{command: EditTherapy()}" ButtonTagName="button">ΑΠΟΘΗΚΕΥΣΗ</dot:Button>
-            <dot:Button class="btn btn-danger" Click="{command: DeleteTherapy()}" ButtonTagName="button">
-                ΔΙΑΓΡΑΦΗ
-                <PostBack.Handlers>
-                    <dot:ConfirmPostBackHandler Message="Θέλετε σίγουρα να ακυρώσετε αυτό το ραντεβού?" />
-                </PostBack.Handlers><i class="bi bi-trash3"></i>
-            </dot:Button>
-        </form>
-    </div>
+                <div class="form-floating mb-3">
+                    <dot:TextBox ID="floatingEnergy" class="form-control" Text="{value: ProjectedTherapy.Energy}" placeholder="Ενέργεια" />
+                    <label for="floatingEnergy" class="form-label">Ενέργεια</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <dot:TextBox ID="floatingComments" class="form-control" Text="{value: ProjectedTherapy.AdditionalComments}" placeholder="Laser" />
+                    <label for="floatingComments" class="form-label">Σχόλια</label>
+                </div>
+                <div class="row mb-3 ">
+                    <div class="mb-2 col-md-6">
+                        <label>Ώρα</label>
+                        <dot:ComboBox class="form-select" DataSource="{value: AppointmentHours}"
+                                      SelectedValue="{value: AppointmentTime}"
+                                      EmptyItemText="Ώρα Θεραπείας"
+                                      SelectionChanged="{command: SetAppointmentTime}" />
+                    </div>
+                    <div class="mb-2 col-md-6">
+                        <label>Χειριστής</label>
+                        <dot:ComboBox class="form-select" DataSource="{value: TherapistList}"
+                                      SelectedValue="{value: ProjectedTherapy.TherapistName}"
+                                      EmptyItemText="Χειριστής"
+                                      SelectionChanged="{command: SetAppointmentTime}" required />
+                    </div>
+                </div>
+                <dot:Button class="btn btn-dark" Click="{command: EditTherapy()}" ButtonTagName="button">ΑΠΟΘΗΚΕΥΣΗ</dot:Button>
+                <dot:Button class="btn btn-danger" Click="{command: DeleteTherapy()}" ButtonTagName="button">
+                    ΔΙΑΓΡΑΦΗ
+                    <PostBack.Handlers>
+                        <dot:ConfirmPostBackHandler Message="Θέλετε σίγουρα να ακυρώσετε αυτό το ραντεβού?" />
+                    </PostBack.Handlers><i class="bi bi-trash3"></i>
+                </dot:Button>
+            </form>
+        </div>
 
         <%-- Hidden Buttons --%>
         <dot:Button ID="editTherapyBtn" Click="{command: PopulateEditTherapyForm()}" hidden></dot:Button>

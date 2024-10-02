@@ -217,10 +217,28 @@
                     <dot:GridView DataSource="{value: ProjectedCustomer.Therapies}" class="table mt-3">
                         <Columns>
                             <dot:GridViewTextColumn CssClass="ascending-number" ValueBinding="{value: _collection.Index + 1}" HeaderText="" Width="10px" />
-                            <dot:GridViewTextColumn ValueBinding="{value: Title}" HeaderText="ΠΕΡΙΟΧΗ ΘΕΡΑΠΕΙΑΣ" />
+                            <dot:GridViewTemplateColumn HeaderText="ΠΕΡΙΟΧΗ ΘΕΡΑΠΕΙΑΣ">
+                                <ContentTemplate>
+                                    <dot:Repeater DataSource="{value: TherapyAreas}">
+                                        <ItemTemplate>
+                                            {{value: AreaName}}
+                                            <br />
+                                        </ItemTemplate>
+                                    </dot:Repeater>
+                                </ContentTemplate>
+                            </dot:GridViewTemplateColumn>
+                            <dot:GridViewTemplateColumn HeaderText="ΜΕΓΕΘΟΣ ΔΕΣΜΗΣ">
+                                <ContentTemplate>
+                                    <dot:Repeater DataSource="{value: TherapyAreas}">
+                                        <ItemTemplate>
+                                            {{value: BeamDiameter}}
+                                            <br />
+                                        </ItemTemplate>
+                                    </dot:Repeater>
+                                </ContentTemplate>
+                            </dot:GridViewTemplateColumn>
                             <dot:GridViewTextColumn ValueBinding="{value: TherapistName}" HeaderText="ΧΕΙΡΙΣΤΗΣ" />
                             <dot:GridViewTextColumn ValueBinding="{value: StartDate}" FormatString="dd/MM/yy HH:mm" HeaderText="ΗΜΕΡΟΜΗΝΙΑ" />
-                            <dot:GridViewTextColumn ValueBinding="{value: BeamDiameter}" HeaderText="ΜΕΓΕΘΟΣ ΔΕΣΜΗΣ" />
                             <dot:GridViewTextColumn ValueBinding="{value: Energy}" HeaderText="ΕΝΕΡΓΕΙΑ" />
                             <dot:GridViewTextColumn ValueBinding="{value: Pulses}" HeaderText="ΠΑΛΜΟΙ" />
                             <dot:GridViewTextColumn ValueBinding="{value: AdditionalComments}" HeaderText="ΠΑΡΑΤΗΡΗΣΕΙΣ" />

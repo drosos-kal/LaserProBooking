@@ -29,7 +29,7 @@ namespace BeautySalonBookingSystem.ViewModels
         public List<GenderEnumProjection> ComboBoxGenders { get; set; } = new List<GenderEnumProjection>();
         public List<string> TherapistList { get; set; } = new List<string> { "Ηλιάνα", "Μελίνα" };
         public List<string> TherapyTypes { get; set; }
-        public List<string> TherapyTypeBuilderList { get; set; } = new List<string>();
+        public List<TherapyArea> TherapyTypeBuilderList { get; set; } = new List<TherapyArea>();
 
         // DI
         private readonly CustomerService _customerService;
@@ -103,14 +103,19 @@ namespace BeautySalonBookingSystem.ViewModels
             if (isAdded)
             {
                 TherapyTypes.Remove(type);
-                TherapyTypeBuilderList.Add(type);
+                ProjectedTherapy.TherapyAreas.Add(new TherapyAreaDTO
+                {
+                    AreaName = type
+                });
             }
             else
             {
                 TherapyTypes.Add(type);
-                TherapyTypeBuilderList.Remove(type);
+                var areaToRemove = ProjectedTherapy.TherapyAreas.Where(x => x.AreaName.Equals(type)).FirstOrDefault();
+                ProjectedTherapy.TherapyAreas.Remove(areaToRemove);
+                TherapyTypes = TherapyTypes.OrderBy(x => x).ToList();
             }
-            ProjectedTherapy.Title = string.Join(", ", TherapyTypeBuilderList);
+            ProjectedTherapy.Title = string.Join(", ", ProjectedTherapy.TherapyAreas);
 
         }
 
@@ -144,6 +149,7 @@ namespace BeautySalonBookingSystem.ViewModels
             therapyFromDb.BeamDiameter = ProjectedTherapy.BeamDiameter;
             therapyFromDb.StartDate = ProjectedTherapy.StartDate;
             therapyFromDb.AdditionalComments = ProjectedTherapy.AdditionalComments;
+            therapyFromDb.TherapyAreas = ProjectedTherapy.TherapyAreas;
 
             await _customerService.UpdateTherapyAsync(customerId, therapyFromDb);
             Context.RedirectToRoute("Calendar");
@@ -174,11 +180,22 @@ namespace BeautySalonBookingSystem.ViewModels
 
             var therapyFromDictionary = dictionaryFromDb.Values.FirstOrDefault();
             ProjectedTherapy.Title = therapyFromDictionary.Title;
-            TherapyTypeBuilderList = ProjectedTherapy.Title.Split(", ").ToList();
-            TherapyTypes = TherapyTypes = new List<string>
+            if (therapyFromDictionary.TherapyAreas != null)
+            {
+                    ProjectedTherapy.TherapyAreas = therapyFromDictionary.TherapyAreas
+                .Select(dto => new TherapyAreaDTO
                 {
-                    "Μουστάκι", "Πρόσωπο", "Μασχάλες", "Στήθος", "Χέρια", "Κοιλιά", "Πλάτη", "Ώμοι", "Μπικίνι", "Γλουτοί", "Κνήμες", "Γάμπες", "Πόδια", "Αυτιά", "Αυχένας", "Μούσι", "Full Body"
-                }.OrderBy(x => x).Except(TherapyTypeBuilderList).ToList();
+                    AreaName = dto.AreaName,
+                    BeamDiameter = dto.BeamDiameter
+                }).ToList();
+            }
+            TherapyTypes = new List<string>
+            {
+                "Μουστάκι", "Πρόσωπο", "Μασχάλες", "Στήθος", "Χέρια", "Κοιλιά", "Πλάτη", "Ώμοι", "Μπικίνι", "Γλουτοί", "Κνήμες", "Γάμπες", "Πόδια", "Αυτιά", "Αυχένας", "Μούσι", "Full Body"
+            }
+            .OrderBy(x => x)
+            .Except(ProjectedTherapy.TherapyAreas.Select(t => t.AreaName))
+            .ToList();
             ProjectedTherapy.TherapistName = therapyFromDictionary.TherapistName;
             ProjectedTherapy.Energy = therapyFromDictionary.Energy;
             ProjectedTherapy.Pulses = therapyFromDictionary.Pulses;
@@ -192,7 +209,7 @@ namespace BeautySalonBookingSystem.ViewModels
 
         public void ClearForm()
         {
-            TherapyTypeBuilderList = new List<string>();
+            TherapyTypeBuilderList = new List<TherapyArea>();
             ProjectedTherapy = new TherapyDTO();
             ProjectedCustomer = new Customer();
             AppointmentTime = "";

@@ -77,3 +77,7 @@ button {
 .fc-daygrid-day-number {
     text-decoration: none;
 }
+
+.beam-input {
+    background: #ffff;
+}

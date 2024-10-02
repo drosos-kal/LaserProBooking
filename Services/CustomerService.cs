@@ -5,6 +5,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BeautySalonBookingSystem.Services
@@ -37,7 +38,7 @@ namespace BeautySalonBookingSystem.Services
             await cursor.ForEachAsync(document =>
             {
                 var therapyDocument = document["Therapy"].AsBsonDocument;
-                if (therapyDocument == null ) { return; }
+                if (therapyDocument == null) { return; }
 
                 var therapy = BsonSerializer.Deserialize<Therapy>(therapyDocument);
                 var firstnameBsonValue = document.GetValue("Firstname", BsonNull.Value);
@@ -86,8 +87,8 @@ namespace BeautySalonBookingSystem.Services
             if (therapyDto == null) { return; }
 
             var filter = Builders<Customer>.Filter.And(
-                Builders<Customer>.Filter.Eq("_id", new ObjectId(customerId)), // Assuming therapyDto.CustomerId contains the customer's ObjectId
-                Builders<Customer>.Filter.ElemMatch("Therapies", Builders<Therapy>.Filter.Eq("_id", new ObjectId(therapyDto.Id))) // Find the therapy within the Therapies array by its ObjectId
+                Builders<Customer>.Filter.Eq("_id", new ObjectId(customerId)),
+                Builders<Customer>.Filter.ElemMatch("Therapies", Builders<Therapy>.Filter.Eq("_id", new ObjectId(therapyDto.Id)))
             );
 
             var update = Builders<Customer>.Update
@@ -98,7 +99,12 @@ namespace BeautySalonBookingSystem.Services
                 .Set("Therapies.$.BeamDiameter", therapyDto.BeamDiameter)
                 .Set("Therapies.$.StartDate", therapyDto.StartDate.ToUniversalTime())
                 .Set("Therapies.$.EndDate", therapyDto.StartDate.AddMinutes(30))
-                .Set("Therapies.$.AdditionalComments", therapyDto.AdditionalComments);
+                .Set("Therapies.$.AdditionalComments", therapyDto.AdditionalComments)
+                .Set("Therapies.$.TherapyAreas", therapyDto.TherapyAreas.Select(area => new
+                {
+                    AreaName = area.AreaName,
+                    BeamDiameter = area.BeamDiameter
+                }).ToList());
 
             var result = await _customersCollection.UpdateOneAsync(filter, update);
         }
@@ -292,7 +298,12 @@ namespace BeautySalonBookingSystem.Services
                 BeamDiameter = therapy.BeamDiameter,
                 StartDate = therapy.StartDate.ToLocalTime(),
                 EndDate = therapy.EndDate.ToLocalTime().AddMinutes(30),
-                AdditionalComments = therapy.AdditionalComments
+                AdditionalComments = therapy.AdditionalComments,
+                TherapyAreas = therapy.TherapyAreas?.Select(area => new TherapyAreaDTO
+                {
+                    AreaName = area.AreaName,
+                    BeamDiameter = area.BeamDiameter
+                }).ToList()
             };
             return therapyDto;
         }
@@ -311,7 +322,12 @@ namespace BeautySalonBookingSystem.Services
                 BeamDiameter = therapyDto.BeamDiameter,
                 StartDate = therapyDto.StartDate,
                 EndDate = therapyDto.EndDate,
-                AdditionalComments = therapyDto.AdditionalComments
+                AdditionalComments = therapyDto.AdditionalComments,
+                TherapyAreas = therapyDto.TherapyAreas?.Select(areaDto => new TherapyArea
+                {
+                    AreaName = areaDto.AreaName,
+                    BeamDiameter = areaDto.BeamDiameter
+                }).ToList()
             };
             return therapy;
         }
