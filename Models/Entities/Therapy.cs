@@ -25,6 +25,9 @@ namespace BeautySalonBookingSystem.Models.Entities
     {
         public string AreaName { get; set; }
         public string BeamDiameter { get; set; }
+        public string Pulses { get; set; }
+        public string Energy { get; set; }
+        public string Price { get; set; }
     }
 
     

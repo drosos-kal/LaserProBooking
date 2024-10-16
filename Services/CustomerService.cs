@@ -103,7 +103,10 @@ namespace BeautySalonBookingSystem.Services
                 .Set("Therapies.$.TherapyAreas", therapyDto.TherapyAreas.Select(area => new
                 {
                     AreaName = area.AreaName,
-                    BeamDiameter = area.BeamDiameter
+                    BeamDiameter = area.BeamDiameter,
+                    Pulses = area.Pulses,
+                    Price = area.Price,
+                    Energy = area.Energy
                 }).ToList());
 
             var result = await _customersCollection.UpdateOneAsync(filter, update);
@@ -302,7 +305,10 @@ namespace BeautySalonBookingSystem.Services
                 TherapyAreas = therapy.TherapyAreas?.Select(area => new TherapyAreaDTO
                 {
                     AreaName = area.AreaName,
-                    BeamDiameter = area.BeamDiameter
+                    BeamDiameter = area.BeamDiameter,
+                    Pulses = area.Pulses,
+                    Energy = area.Energy,
+                    Price = area.Price
                 }).ToList()
             };
             return therapyDto;
@@ -326,7 +332,10 @@ namespace BeautySalonBookingSystem.Services
                 TherapyAreas = therapyDto.TherapyAreas?.Select(areaDto => new TherapyArea
                 {
                     AreaName = areaDto.AreaName,
-                    BeamDiameter = areaDto.BeamDiameter
+                    BeamDiameter = areaDto.BeamDiameter,
+                    Pulses = areaDto.Pulses,
+                    Energy = areaDto.Energy,
+                    Price = areaDto.Price
                 }).ToList()
             };
             return therapy;

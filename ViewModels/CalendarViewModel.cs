@@ -30,6 +30,7 @@ namespace BeautySalonBookingSystem.ViewModels
         public List<string> TherapistList { get; set; } = new List<string> { "Ηλιάνα", "Μελίνα" };
         public List<string> TherapyTypes { get; set; }
         public List<TherapyArea> TherapyTypeBuilderList { get; set; } = new List<TherapyArea>();
+        public int TotalPrice { get; set; }
 
         // DI
         private readonly CustomerService _customerService;
@@ -186,7 +187,10 @@ namespace BeautySalonBookingSystem.ViewModels
                 .Select(dto => new TherapyAreaDTO
                 {
                     AreaName = dto.AreaName,
-                    BeamDiameter = dto.BeamDiameter
+                    BeamDiameter = dto.BeamDiameter,
+                    Pulses = dto.Pulses,
+                    Energy = dto.Energy,
+                    Price = dto.Price
                 }).ToList();
             }
             TherapyTypes = new List<string>

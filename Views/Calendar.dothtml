@@ -78,7 +78,7 @@
                     <div class="accordion" ID="accordionAddBeamDiameter" style="width: 91%">
                         <div class="accordion-item">
                             <p class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" >
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     Μέγεθος Δέσμης
                                 </button>
                             </p>
@@ -89,7 +89,7 @@
                                             <Columns>
 
                                                 <dot:GridViewTemplateColumn HeaderText="Περιοχή">
-                                                    <dot:TextBox class="form-control" Text="{value: AreaName}" disabled/>
+                                                    <dot:TextBox class="form-control" Text="{value: AreaName}" disabled />
                                                 </dot:GridViewTemplateColumn>
                                                 <dot:GridViewTemplateColumn HeaderText="Μέγεθος">
                                                     <dot:TextBox class="form-control beam-input" Text="{value: BeamDiameter}" />
@@ -105,12 +105,95 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <dot:TextBox ID="floatingPulses" class="form-control" Text="{value: ProjectedTherapy.Pulses}" placeholder="Παλμοί" />
-                    <label for="floatingPulses" class="form-label">Παλμοί</label>
+                    <div class="accordion" ID="accordionAddEnergy" style="width: 91%">
+                        <div class="accordion-item">
+                            <p class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Ενέργεια
+                                </button>
+                            </p>
+                            <div ID="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionAddEnergy">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <dot:GridView DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                            <Columns>
+
+                                                <dot:GridViewTemplateColumn HeaderText="Περιοχή">
+                                                    <dot:TextBox class="form-control" Text="{value: AreaName}" disabled />
+                                                </dot:GridViewTemplateColumn>
+                                                <dot:GridViewTemplateColumn HeaderText="Ενέργεια">
+                                                    <dot:TextBox class="form-control beam-input" Text="{value: Energy}" />
+                                                </dot:GridViewTemplateColumn>
+                                            </Columns>
+                                        </dot:GridView>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <dot:TextBox ID="floatingEnergy" class="form-control was-validated" Text="{value: ProjectedTherapy.Energy}" placeholder="Ενέργεια" />
-                    <label for="floatingEnergy" class="form-label">Ενέργεια</label>
+                    <div class="accordion" ID="accordionAddPulses" style="width: 91%">
+                        <div class="accordion-item">
+                            <p class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Παλμοί
+                                </button>
+                            </p>
+                            <div ID="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionAddPulses">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <dot:GridView DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                            <Columns>
+
+                                                <dot:GridViewTemplateColumn HeaderText="Περιοχή">
+                                                    <dot:TextBox class="form-control" Text="{value: AreaName}" disabled />
+                                                </dot:GridViewTemplateColumn>
+                                                <dot:GridViewTemplateColumn HeaderText="Παλμοί">
+                                                    <dot:TextBox class="form-control beam-input" Text="{value: Pulses}" />
+                                                </dot:GridViewTemplateColumn>
+                                            </Columns>
+                                        </dot:GridView>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <div class="accordion" ID="accordionAddPrice" style="width: 91%">
+                        <div class="accordion-item">
+                            <p class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    Τιμή
+                                </button>
+                            </p>
+                            <div ID="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionAddPrice">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <dot:GridView DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                            <Columns>
+
+                                                <dot:GridViewTemplateColumn HeaderText="Περιοχή">
+                                                    <dot:TextBox class="form-control" Text="{value: AreaName}" disabled />
+                                                </dot:GridViewTemplateColumn>
+                                                <dot:GridViewTemplateColumn HeaderText="Τιμή" CssClass="d-flex align-items-center">
+                                                    <dot:TextBox class="form-control beam-input" Text="{value: Price}" />
+                                                    <span class="ms-2 fs-2">€</span>
+                                                </dot:GridViewTemplateColumn>
+                                            </Columns>
+                                        </dot:GridView>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-floating mb-3">
                     <dot:TextBox ID="floatingComments" class="form-control" Text="{value: ProjectedTherapy.AdditionalComments}" placeholder="Laser" />
@@ -242,12 +325,95 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <dot:TextBox ID="floatingPulses" class="form-control" Text="{value: ProjectedTherapy.Pulses}" placeholder="Παλμοί" />
-                    <label for="floatingPulses" class="form-label">Παλμοί</label>
+                    <div class="accordion" ID="accordionAddEnergy" style="width: 91%">
+                        <div class="accordion-item">
+                            <p class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Ενέργεια
+                                </button>
+                            </p>
+                            <div ID="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionAddEnergy">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <dot:GridView DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                            <Columns>
+
+                                                <dot:GridViewTemplateColumn HeaderText="Περιοχή">
+                                                    <dot:TextBox class="form-control" Text="{value: AreaName}" disabled />
+                                                </dot:GridViewTemplateColumn>
+                                                <dot:GridViewTemplateColumn HeaderText="Ενέργεια">
+                                                    <dot:TextBox class="form-control beam-input" Text="{value: Energy}" />
+                                                </dot:GridViewTemplateColumn>
+                                            </Columns>
+                                        </dot:GridView>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <dot:TextBox ID="floatingEnergy" class="form-control" Text="{value: ProjectedTherapy.Energy}" placeholder="Ενέργεια" />
-                    <label for="floatingEnergy" class="form-label">Ενέργεια</label>
+                    <div class="accordion" ID="accordionAddPulses" style="width: 91%">
+                        <div class="accordion-item">
+                            <p class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Παλμοί
+                                </button>
+                            </p>
+                            <div ID="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionAddPulses">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <dot:GridView DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                            <Columns>
+
+                                                <dot:GridViewTemplateColumn HeaderText="Περιοχή">
+                                                    <dot:TextBox class="form-control" Text="{value: AreaName}" disabled />
+                                                </dot:GridViewTemplateColumn>
+                                                <dot:GridViewTemplateColumn HeaderText="Παλμοί">
+                                                    <dot:TextBox class="form-control beam-input" Text="{value: Pulses}" />
+                                                </dot:GridViewTemplateColumn>
+                                            </Columns>
+                                        </dot:GridView>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <div class="accordion" ID="accordionAddPrice" style="width: 91%">
+                        <div class="accordion-item">
+                            <p class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    Τιμή
+                                </button>
+                            </p>
+                            <div ID="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionAddPrice">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <dot:GridView DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                            <Columns>
+
+                                                <dot:GridViewTemplateColumn HeaderText="Περιοχή">
+                                                    <dot:TextBox class="form-control" Text="{value: AreaName}" disabled />
+                                                </dot:GridViewTemplateColumn>
+                                                <dot:GridViewTemplateColumn HeaderText="Τιμή" CssClass="d-flex align-items-center">
+                                                    <dot:TextBox class="form-control beam-input" Text="{value: Price}" />
+                                                    <span class="ms-2 fs-2">€</span>
+                                                </dot:GridViewTemplateColumn>
+                                            </Columns>
+                                        </dot:GridView>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-floating mb-3">
                     <dot:TextBox ID="floatingComments" class="form-control" Text="{value: ProjectedTherapy.AdditionalComments}" placeholder="Laser" />
