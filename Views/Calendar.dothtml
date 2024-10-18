@@ -23,10 +23,10 @@
             </h4>
             <form ID="newTherapyForm" class="needs-validation" novalidate>
                 <div class="form-floating mb-3">
-                    <div class="accordion" ID="accordionNewTherapy" style="width: 91%">
+                    <div class="accordion" ID="accordionNewTherapy">
                         <div class="accordion-item">
                             <p class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                <button style="width:91%;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                     Περιοχη
                                 </button>
                             </p>
@@ -34,7 +34,7 @@
                                 <div class="accordion-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <dot:GridView class="form-control" DataSource="{value: TherapyTypes}">
+                                            <dot:GridView DataSource="{value: TherapyTypes}">
                                                 <RowDecorators>
                                                     <dot:Decorator Events.Click="{command: _root.TherapyTypeBuilder(_this, true)}"
                                                                    class="clickable" />
@@ -50,13 +50,13 @@
                                             </dot:GridView>
                                         </div>
                                         <div class="col-md-6">
-                                            <dot:GridView class="form-control" DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                            <dot:GridView  DataSource="{value: ProjectedTherapy.TherapyAreas}">
                                                 <RowDecorators>
                                                     <dot:Decorator Events.Click="{command: _root.TherapyTypeBuilder(AreaName, false)}"
                                                                    class="clickable" />
                                                 </RowDecorators>
                                                 <Columns>
-                                                    <dot:GridViewTemplateColumn HeaderText="Επιλεγμενα">
+                                                    <dot:GridViewTemplateColumn HeaderText="Επιλεγμένα">
                                                         <div>
                                                             <button class="hoverable">
                                                                 {{value: AreaName}}
@@ -75,10 +75,10 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <div class="accordion" ID="accordionAddBeamDiameter" style="width: 91%">
+                    <div class="accordion" ID="accordionAddBeamDiameter">
                         <div class="accordion-item">
                             <p class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <button style="width:91%;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     Μέγεθος Δέσμης
                                 </button>
                             </p>
@@ -105,10 +105,10 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <div class="accordion" ID="accordionAddEnergy" style="width: 91%">
+                    <div class="accordion" ID="accordionAddEnergy">
                         <div class="accordion-item">
                             <p class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <button style="width:91%;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     Ενέργεια
                                 </button>
                             </p>
@@ -135,10 +135,10 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <div class="accordion" ID="accordionAddPulses" style="width: 91%">
+                    <div class="accordion" ID="accordionAddPulses" >
                         <div class="accordion-item">
                             <p class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                <button style="width:91%;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                     Παλμοί
                                 </button>
                             </p>
@@ -165,10 +165,10 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <div class="accordion" ID="accordionAddPrice" style="width: 91%">
+                    <div class="accordion" ID="accordionAddPrice">
                         <div class="accordion-item">
                             <p class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                <button style="width:91%;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                     Τιμή
                                 </button>
                             </p>
@@ -183,7 +183,7 @@
                                                 </dot:GridViewTemplateColumn>
                                                 <dot:GridViewTemplateColumn HeaderText="Τιμή" CssClass="d-flex align-items-center">
                                                     <dot:TextBox class="form-control beam-input" Text="{value: Price}" />
-                                                    <span class="ms-2 fs-2">€</span>
+                                                    <span class="ms-2 fs-2"><i class="bi bi-currency-euro"></i></span>
                                                 </dot:GridViewTemplateColumn>
                                             </Columns>
                                         </dot:GridView>
@@ -245,10 +245,10 @@
                 </span>
             </div>
             <form>
-                <div class="accordion" ID="accordionEditTherapy" style="width: 91%">
+                <div class="accordion" ID="accordionEditTherapy" >
                     <div class="accordion-item">
                         <p class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            <button style="width:91%;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                 Περιοχη
                             </button>
                         </p>
@@ -256,13 +256,13 @@
                             <div class="accordion-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <dot:GridView class="form-control" DataSource="{value: TherapyTypes}">
+                                        <dot:GridView DataSource="{value: TherapyTypes}">
                                             <RowDecorators>
                                                 <dot:Decorator Events.Click="{command: _root.TherapyTypeBuilder(_this, true)}"
                                                                class="clickable" />
                                             </RowDecorators>
                                             <Columns>
-                                                <dot:GridViewTemplateColumn HeaderText="Διαθεσιμα">
+                                                <dot:GridViewTemplateColumn HeaderText="Διαθέσιμα">
                                                     <button class="hoverable">
                                                         {{value: _this}}
                                                         <i class="bi bi-plus-lg hidden-icon"></i>
@@ -272,13 +272,13 @@
                                         </dot:GridView>
                                     </div>
                                     <div class="col-md-6">
-                                        <dot:GridView class="form-control" DataSource="{value: ProjectedTherapy.TherapyAreas}">
+                                        <dot:GridView DataSource="{value: ProjectedTherapy.TherapyAreas}">
                                             <RowDecorators>
                                                 <dot:Decorator Events.Click="{command: _root.TherapyTypeBuilder(AreaName, false)}"
                                                                class="clickable" />
                                             </RowDecorators>
                                             <Columns>
-                                                <dot:GridViewTemplateColumn HeaderText="Επιλεγμενα">
+                                                <dot:GridViewTemplateColumn HeaderText="Επιλεγμένα">
                                                     <div>
                                                         <button class="hoverable">
                                                             {{value: AreaName}}
@@ -296,10 +296,10 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3 mt-3">
-                    <div class="accordion" ID="accordionEditBeamDiameter" style="width: 91%">
+                    <div class="accordion" ID="accordionEditBeamDiameter">
                         <div class="accordion-item">
                             <p class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <button style="width:91%;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     Μέγεθος Δέσμης
                                 </button>
                             </p>
@@ -325,10 +325,10 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <div class="accordion" ID="accordionAddEnergy" style="width: 91%">
+                    <div class="accordion" ID="accordionAddEnergy">
                         <div class="accordion-item">
                             <p class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <button style="width:91%;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     Ενέργεια
                                 </button>
                             </p>
@@ -355,10 +355,10 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <div class="accordion" ID="accordionAddPulses" style="width: 91%">
+                    <div class="accordion" ID="accordionAddPulses">
                         <div class="accordion-item">
                             <p class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                <button style="width:91%;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                     Παλμοί
                                 </button>
                             </p>
@@ -385,10 +385,10 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <div class="accordion" ID="accordionAddPrice" style="width: 91%">
+                    <div class="accordion" ID="accordionAddPrice">
                         <div class="accordion-item">
                             <p class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                <button style="width:91%;" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                     Τιμή
                                 </button>
                             </p>
@@ -403,7 +403,7 @@
                                                 </dot:GridViewTemplateColumn>
                                                 <dot:GridViewTemplateColumn HeaderText="Τιμή" CssClass="d-flex align-items-center">
                                                     <dot:TextBox class="form-control beam-input" Text="{value: Price}" />
-                                                    <span class="ms-2 fs-2">€</span>
+                                                    <span class="ms-2 fs-2"><i class="bi bi-currency-euro"></i></span>
                                                 </dot:GridViewTemplateColumn>
                                             </Columns>
                                         </dot:GridView>
@@ -580,7 +580,6 @@
 
 </dot:Content>
 <dot:Content ContentPlaceHolderID="BottomScriptContent">
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js" integrity="sha256-i4vDW9EgtaJmeauDDymtNF2omPZ1fCKpf4w1gBlU1IE=" crossorigin="anonymous"></script>
     <script src="/lib/fullcalendar@6.1.11/index.global.min.js"></script>
     <script src="/lib/fullcalendar@6.1.11/locales/el.global.min.js"></script>
     <script src="/js/calendar.js"></script>

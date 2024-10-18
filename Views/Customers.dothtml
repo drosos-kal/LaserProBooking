@@ -70,6 +70,7 @@
                             <div class="col-md-3">
                                 <label class="form-label">Ημ. Γέννησης</label>
                                 <dot:TextBox ID="dobPicker" Type="Date" class="form-control" Text="{value: ProjectedCustomer.Age}" />
+
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Φύλλο</label>
@@ -207,6 +208,10 @@
                                 <label class="form-label">Σχόλια </label>
                                 <dot:TextBox class="form-control enable-input" Type="MultiLine" Text="{value: ProjectedCustomer.AdditionalComments}" disabled></dot:TextBox>
                             </div>
+                            <div>
+                                <label class="form-label mt-2">Πακέτα Θεραπείας </label>
+                                <dot:TextBox class="form-control enable-input" Type="MultiLine" Text="{value: ProjectedCustomer.TherapyPlan}" disabled></dot:TextBox>
+                            </div>
                         </div>
                     </div>
 
@@ -262,8 +267,8 @@
                                 <ContentTemplate>
                                     <dot:Repeater DataSource="{value: TherapyAreas}">
                                         <ItemTemplate>
-                                            <span>{{value: !string.IsNullOrEmpty(Price) ? Price + "€" : ""}}</span>
-                                            <br />
+                                            <dot:HtmlLiteral Html="{value: !string.IsNullOrEmpty(Price) ? Price + "<i class=\"bi bi-currency-euro\"></i>" : ""}" />
+                                            
                                         </ItemTemplate>
                                     </dot:Repeater>
                                 </ContentTemplate>

@@ -1,5 +1,7 @@
 ﻿using BeautySalonBookingSystem.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System;
 using System.Threading.Tasks;
 
 namespace BeautySalonBookingSystem.Api
@@ -19,8 +21,15 @@ namespace BeautySalonBookingSystem.Api
         [HttpGet("therapies")]
         public async Task<IActionResult> GetTherapies()
         {
-            var therapiesList = await _customerService.GetTherapiesWithCustomerInfoAsync();
-            return Ok(therapiesList);
+            try
+            {
+                var therapiesList = await _customerService.GetTherapiesWithCustomerInfoAsync();
+                return Ok(therapiesList);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

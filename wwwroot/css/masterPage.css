@@ -5,6 +5,9 @@
     --dt-row-selected: none;
 
 }
+* {
+    text-transform: none !important;
+}
 
 html {
     width: 100vw;

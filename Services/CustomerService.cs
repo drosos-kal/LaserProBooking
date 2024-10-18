@@ -92,11 +92,7 @@ namespace BeautySalonBookingSystem.Services
             );
 
             var update = Builders<Customer>.Update
-                .Set("Therapies.$.Title", therapyDto.Title)
                 .Set("Therapies.$.TherapistName", therapyDto.TherapistName)
-                .Set("Therapies.$.Energy", therapyDto.Energy)
-                .Set("Therapies.$.Pulses", therapyDto.Pulses)
-                .Set("Therapies.$.BeamDiameter", therapyDto.BeamDiameter)
                 .Set("Therapies.$.StartDate", therapyDto.StartDate.ToUniversalTime())
                 .Set("Therapies.$.EndDate", therapyDto.StartDate.AddMinutes(30))
                 .Set("Therapies.$.AdditionalComments", therapyDto.AdditionalComments)
@@ -220,6 +216,7 @@ namespace BeautySalonBookingSystem.Services
                 .Set(c => c.PostalCode, customerDto.PostalCode)
                 .Set(c => c.AdditionalComments, customerDto.AdditionalComments)
                 .Set(c => c.Medication, customerDto.Medication)
+                .Set(c => c.TherapyPlan, customerDto.TherapyPlan)
                 .Set(c => c.Therapies, therapies);
             var result = await _customersCollection.UpdateOneAsync(filter, update);
         }
@@ -251,6 +248,7 @@ namespace BeautySalonBookingSystem.Services
                 PostalCode = customer.PostalCode,
                 Medication = customer.Medication,
                 AdditionalComments = customer.AdditionalComments,
+                TherapyPlan = customer.TherapyPlan,
                 Therapies = therapies
             };
 
@@ -283,6 +281,7 @@ namespace BeautySalonBookingSystem.Services
                 PostalCode = customerDto.PostalCode,
                 Medication = customerDto.Medication,
                 AdditionalComments = customerDto.AdditionalComments,
+                TherapyPlan = customerDto.TherapyPlan,
                 Therapies = therapies
             };
         }
@@ -294,11 +293,7 @@ namespace BeautySalonBookingSystem.Services
             {
 
                 Id = therapy.Id.ToString(),
-                Title = therapy.Title,
                 TherapistName = therapy.TherapistName,
-                Energy = therapy.Energy,
-                Pulses = therapy.Pulses,
-                BeamDiameter = therapy.BeamDiameter,
                 StartDate = therapy.StartDate.ToLocalTime(),
                 EndDate = therapy.EndDate.ToLocalTime().AddMinutes(30),
                 AdditionalComments = therapy.AdditionalComments,
@@ -321,11 +316,7 @@ namespace BeautySalonBookingSystem.Services
             var therapy = new Therapy
             {
                 Id = string.IsNullOrEmpty(therapyDto.Id) ? ObjectId.GenerateNewId() : new ObjectId(therapyDto.Id),
-                Title = therapyDto.Title,
                 TherapistName = therapyDto.TherapistName,
-                Energy = therapyDto.Energy,
-                Pulses = therapyDto.Pulses,
-                BeamDiameter = therapyDto.BeamDiameter,
                 StartDate = therapyDto.StartDate,
                 EndDate = therapyDto.EndDate,
                 AdditionalComments = therapyDto.AdditionalComments,

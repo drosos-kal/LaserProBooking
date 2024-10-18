@@ -44,26 +44,8 @@ namespace BeautySalonBookingSystem.ViewModels
 
         public async Task CreateCustomer()
         {
-            /*if (ProjectedCustomer.Age.Value.Year < 1900 || ProjectedCustomer.Age.Value.Year > DateTime.Now.Year)
-            {
-                ProjectedCustomer.Age = null;
-            }*/
-            var newCustomer = new CustomerDTO
-            {
-                Firstname = ProjectedCustomer.Firstname,
-                Lastname = ProjectedCustomer.Lastname,
-                Gender = ProjectedCustomer.Gender,
-                Age = ProjectedCustomer.Age,
-                MobileNumber = ProjectedCustomer.MobileNumber,
-                Email = ProjectedCustomer.Email,
-                Address = ProjectedCustomer.Address,
-                City = ProjectedCustomer.City,
-                PostalCode = ProjectedCustomer.PostalCode,
-                Medication = ProjectedCustomer.Medication,
-                Therapies = ProjectedCustomer.Therapies
-            };
-
-            await _customerService.CreateCustomerAsync(newCustomer);
+            if (ProjectedCustomer is null) { return; }
+            await _customerService.CreateCustomerAsync(ProjectedCustomer);
             Context.RedirectToRoute("Customers");
         }
 
@@ -73,18 +55,7 @@ namespace BeautySalonBookingSystem.ViewModels
             var customerFromDb = await _customerService.GetCustomer(IdToPopulate);
             if (customerFromDb != null)
             {
-                customerFromDb.Firstname = ProjectedCustomer.Firstname;
-                customerFromDb.Lastname = ProjectedCustomer.Lastname;
-                customerFromDb.Gender = ProjectedCustomer.Gender;
-                customerFromDb.Age = ProjectedCustomer.Age;
-                customerFromDb.MobileNumber = ProjectedCustomer.MobileNumber;
-                customerFromDb.Email = ProjectedCustomer.Email;
-                customerFromDb.Address = ProjectedCustomer.Address;
-                customerFromDb.City = ProjectedCustomer.City;
-                customerFromDb.PostalCode = ProjectedCustomer.PostalCode;
-                customerFromDb.AdditionalComments = ProjectedCustomer.AdditionalComments;
-                customerFromDb.Medication = ProjectedCustomer.Medication;
-                customerFromDb.Therapies = ProjectedCustomer.Therapies;
+                customerFromDb = ProjectedCustomer;
             }
 
            await _customerService.UpdateCustomer(customerFromDb);
@@ -93,21 +64,9 @@ namespace BeautySalonBookingSystem.ViewModels
         public async Task PopulateModal()
         {
             if (string.IsNullOrEmpty(IdToPopulate)) { return; }
-            var customerFromDb = await _customerService.GetCustomer(IdToPopulate);
-            if (customerFromDb != null)
+            ProjectedCustomer = await _customerService.GetCustomer(IdToPopulate);
+            if (ProjectedCustomer != null)
             {
-                ProjectedCustomer.Firstname = customerFromDb.Firstname;
-                ProjectedCustomer.Lastname = customerFromDb.Lastname;
-                ProjectedCustomer.Gender = customerFromDb.Gender;
-                ProjectedCustomer.Age = customerFromDb.Age;
-                ProjectedCustomer.MobileNumber = customerFromDb.MobileNumber;
-                ProjectedCustomer.Email = customerFromDb.Email;
-                ProjectedCustomer.Address = customerFromDb.Address;
-                ProjectedCustomer.City = customerFromDb.City;
-                ProjectedCustomer.PostalCode = customerFromDb.PostalCode;
-                ProjectedCustomer.AdditionalComments = customerFromDb.AdditionalComments;
-                ProjectedCustomer.Medication = customerFromDb.Medication;
-                ProjectedCustomer.Therapies = customerFromDb.Therapies;
                 Context.ResourceManager.AddStartupScript(Guid.NewGuid().ToString(), "$('#editModal').modal('toggle')");
             }
         }

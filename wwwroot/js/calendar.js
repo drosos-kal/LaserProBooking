@@ -133,11 +133,7 @@ function LoadCustomersDataTable() {
             { data: 'Lastname', title: 'Επώνυμο' },
             { data: 'MobileNumber', title: 'Κινητό τηλ.' },
             { data: 'Age', title: 'Ημ. Γέννησης' },
-            { data: 'Gender', title: 'Φύλλο' },
             { data: 'Email', title: 'E-mail' },
-            { data: 'Address', title: 'Διεύθυνση' },
-            { data: 'City', title: 'Πόλη' },
-            { data: 'PostalCode', title: 'Τ.Κ.' },
             { data: 'Medication', title: 'Αγωγή' }
         ],
         columnDefs: [

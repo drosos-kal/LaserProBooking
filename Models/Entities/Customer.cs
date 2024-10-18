@@ -21,6 +21,7 @@ namespace BeautySalonBookingSystem.Models.Entities
         public string City { get; set; }
         public string PostalCode { get; set; }
         public string AdditionalComments { get; set; }
+        public string TherapyPlan { get; set; }
         public List<Therapy> Therapies { get; set; }
 
 

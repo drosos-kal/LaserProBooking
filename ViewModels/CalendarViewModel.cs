@@ -19,7 +19,7 @@ namespace BeautySalonBookingSystem.ViewModels
     public class CalendarViewModel : MasterPageViewModel
     {
         public TherapyDTO ProjectedTherapy { get; set; } = new TherapyDTO();
-        public Customer ProjectedCustomer { get; set; } = new Customer();
+        public CustomerDTO ProjectedCustomer { get; set; } = new CustomerDTO();
         public List<string> AppointmentHours { get; set; } = new List<string>();
         public string AppointmentTime { get; set; }
         public DateTime AppointmentDate { get; set; }
@@ -29,8 +29,6 @@ namespace BeautySalonBookingSystem.ViewModels
         public List<GenderEnumProjection> ComboBoxGenders { get; set; } = new List<GenderEnumProjection>();
         public List<string> TherapistList { get; set; } = new List<string> { "Ηλιάνα", "Μελίνα" };
         public List<string> TherapyTypes { get; set; }
-        public List<TherapyArea> TherapyTypeBuilderList { get; set; } = new List<TherapyArea>();
-        public int TotalPrice { get; set; }
 
         // DI
         private readonly CustomerService _customerService;
@@ -45,10 +43,7 @@ namespace BeautySalonBookingSystem.ViewModels
             Context.Authorize();
             if (!Context.IsPostBack)
             {
-                TherapyTypes = new List<string>
-                {
-                    "Μουστάκι", "Πρόσωπο", "Μασχάλες", "Στήθος", "Χέρια", "Κοιλιά", "Πλάτη", "Ώμοι", "Μπικίνι", "Γλουτοί", "Κνήμες", "Γάμπες", "Πόδια", "Αυτιά", "Αυχένας", "Μούσι", "Full Body"
-                }.OrderBy(x => x).ToList();
+                TherapyTypes = ResetTherapyTypes();
                 ComboBoxGenders = GenderEnumProjection.GetGenderList();
                 WorkingHours();
             }
@@ -58,28 +53,8 @@ namespace BeautySalonBookingSystem.ViewModels
         #region Customer
         public async Task CreateCustomer()
         {
-            /*if (ProjectedCustomer.Age == null || ProjectedCustomer.Age.Value.Year < 1900 || ProjectedCustomer.Age.Value.Year > DateTime.Now.Year)
-            {
-                ProjectedCustomer.Age = null;
-            }*/
-            var newCustomer = new CustomerDTO
-            {
-                Firstname = ProjectedCustomer.Firstname,
-                Lastname = ProjectedCustomer.Lastname,
-                Gender = ProjectedCustomer.Gender,
-                Age = ProjectedCustomer.Age,
-                MobileNumber = ProjectedCustomer.MobileNumber,
-                Email = ProjectedCustomer.Email,
-                Address = ProjectedCustomer.Address,
-                City = ProjectedCustomer.City,
-                PostalCode = ProjectedCustomer.PostalCode,
-                Medication = ProjectedCustomer.Medication,
-                Therapies = new List<TherapyDTO>()
-            };
-
-            var insertedCustomer = await _customerService.CreateCustomerAsync(newCustomer);
-
-            CustomerToAppoint = $"{newCustomer.Firstname} {newCustomer.Lastname}";
+            var insertedCustomer = await _customerService.CreateCustomerAsync(ProjectedCustomer);
+            CustomerToAppoint = $"{ProjectedCustomer.Firstname} {ProjectedCustomer.Lastname}";
             CustomerIdToAppoint = insertedCustomer.Id.ToString();
             Context.ResourceManager.AddStartupScript(Guid.NewGuid().ToString(), "$('#customerToAppoint').show()");
             Context.ResourceManager.AddStartupScript(Guid.NewGuid().ToString(), "$('#selectClientBtn').hide()");
@@ -99,27 +74,6 @@ namespace BeautySalonBookingSystem.ViewModels
 
         #region Therapy
 
-        public void TherapyTypeBuilder(string type, bool isAdded)
-        {
-            if (isAdded)
-            {
-                TherapyTypes.Remove(type);
-                ProjectedTherapy.TherapyAreas.Add(new TherapyAreaDTO
-                {
-                    AreaName = type
-                });
-            }
-            else
-            {
-                TherapyTypes.Add(type);
-                var areaToRemove = ProjectedTherapy.TherapyAreas.Where(x => x.AreaName.Equals(type)).FirstOrDefault();
-                ProjectedTherapy.TherapyAreas.Remove(areaToRemove);
-                TherapyTypes = TherapyTypes.OrderBy(x => x).ToList();
-            }
-            ProjectedTherapy.Title = string.Join(", ", ProjectedTherapy.TherapyAreas);
-
-        }
-
         public async Task CreateTherapy()
         {
             var customerToAssign = await _customerService.GetCustomer(CustomerIdToAppoint);
@@ -128,7 +82,6 @@ namespace BeautySalonBookingSystem.ViewModels
             {
                 customerToAssign.Therapies = new List<TherapyDTO>();
             }
-
             customerToAssign.Therapies.Add(ProjectedTherapy);
             await _customerService.UpdateCustomer(customerToAssign);
             Context.RedirectToRoute("Calendar");
@@ -141,13 +94,9 @@ namespace BeautySalonBookingSystem.ViewModels
             if (dictionaryFromDb == null) { return; }
 
             var customerId = dictionaryFromDb.Keys.FirstOrDefault();
-
             var therapyFromDb = dictionaryFromDb.Values.FirstOrDefault();
-            therapyFromDb.Title = ProjectedTherapy.Title;
+            ProjectedTherapy.Id = therapyFromDb.Id;
             therapyFromDb.TherapistName = ProjectedTherapy.TherapistName;
-            therapyFromDb.Energy = ProjectedTherapy.Energy;
-            therapyFromDb.Pulses = ProjectedTherapy.Pulses;
-            therapyFromDb.BeamDiameter = ProjectedTherapy.BeamDiameter;
             therapyFromDb.StartDate = ProjectedTherapy.StartDate;
             therapyFromDb.AdditionalComments = ProjectedTherapy.AdditionalComments;
             therapyFromDb.TherapyAreas = ProjectedTherapy.TherapyAreas;
@@ -173,54 +122,25 @@ namespace BeautySalonBookingSystem.ViewModels
             var dictionaryFromDb = await _customerService.GetTherapyAsync(TherapyIdToPopulate);
 
             if (dictionaryFromDb == null) { return; }
-
             var customerId = dictionaryFromDb.Keys.FirstOrDefault();
-
             var customerFromDb = await _customerService.GetCustomer(customerId);
+           
             CustomerToAppoint = $"{customerFromDb.Firstname} {customerFromDb.Lastname}";
-
-            var therapyFromDictionary = dictionaryFromDb.Values.FirstOrDefault();
-            ProjectedTherapy.Title = therapyFromDictionary.Title;
-            if (therapyFromDictionary.TherapyAreas != null)
-            {
-                    ProjectedTherapy.TherapyAreas = therapyFromDictionary.TherapyAreas
-                .Select(dto => new TherapyAreaDTO
-                {
-                    AreaName = dto.AreaName,
-                    BeamDiameter = dto.BeamDiameter,
-                    Pulses = dto.Pulses,
-                    Energy = dto.Energy,
-                    Price = dto.Price
-                }).ToList();
-            }
-            TherapyTypes = new List<string>
-            {
-                "Μουστάκι", "Πρόσωπο", "Μασχάλες", "Στήθος", "Χέρια", "Κοιλιά", "Πλάτη", "Ώμοι", "Μπικίνι", "Γλουτοί", "Κνήμες", "Γάμπες", "Πόδια", "Αυτιά", "Αυχένας", "Μούσι", "Full Body"
-            }
-            .OrderBy(x => x)
+            ProjectedTherapy = dictionaryFromDb.Values.FirstOrDefault();
+            TherapyTypes = ResetTherapyTypes()
             .Except(ProjectedTherapy.TherapyAreas.Select(t => t.AreaName))
             .ToList();
-            ProjectedTherapy.TherapistName = therapyFromDictionary.TherapistName;
-            ProjectedTherapy.Energy = therapyFromDictionary.Energy;
-            ProjectedTherapy.Pulses = therapyFromDictionary.Pulses;
-            ProjectedTherapy.BeamDiameter = therapyFromDictionary.BeamDiameter;
-            ProjectedTherapy.AdditionalComments = therapyFromDictionary.AdditionalComments;
-            ProjectedTherapy.StartDate = therapyFromDictionary.StartDate;
-            AppointmentDate = therapyFromDictionary.StartDate;
-            AppointmentTime = therapyFromDictionary.StartDate.ToString("HH:mm");
+            AppointmentDate = ProjectedTherapy.StartDate;
+            AppointmentTime = ProjectedTherapy.StartDate.ToString("HH:mm");
             CustomerIdToAppoint = customerId;
         }
 
         public void ClearForm()
         {
-            TherapyTypeBuilderList = new List<TherapyArea>();
             ProjectedTherapy = new TherapyDTO();
-            ProjectedCustomer = new Customer();
+            ProjectedCustomer = new CustomerDTO();
             AppointmentTime = "";
-            TherapyTypes = new List<string>
-                {
-                    "Μουστάκι", "Πρόσωπο", "Μασχάλες", "Στήθος", "Χέρια", "Κοιλιά", "Πλάτη", "Ώμοι", "Μπικίνι", "Γλουτοί", "Κνήμες", "Γάμπες", "Πόδια", "Αυτιά", "Αυχένας", "Μούσι", "Full Body"
-                }.OrderBy(x => x).ToList();
+            TherapyTypes = ResetTherapyTypes();
         }
 
         public void SetAppointmentTime()
@@ -247,6 +167,33 @@ namespace BeautySalonBookingSystem.ViewModels
                 AppointmentHours.Add(startTime.ToString("HH:mm"));
                 startTime = startTime.Add(interval);
             }
+        }
+
+        public void TherapyTypeBuilder(string type, bool isAdded)
+        {
+            if (isAdded)
+            {
+                TherapyTypes.Remove(type);
+                ProjectedTherapy.TherapyAreas.Add(new TherapyAreaDTO
+                {
+                    AreaName = type
+                });
+            }
+            else
+            {
+                TherapyTypes.Add(type);
+                var areaToRemove = ProjectedTherapy.TherapyAreas.Where(x => x.AreaName.Equals(type)).FirstOrDefault();
+                ProjectedTherapy.TherapyAreas.Remove(areaToRemove);
+                TherapyTypes = TherapyTypes.OrderBy(x => x).ToList();
+            }
+        }
+
+        public List<string> ResetTherapyTypes()
+        {
+            return new List<string>
+                {
+                    "Μουστάκι", "Πρόσωπο", "Μασχάλες", "Στήθος", "Χέρια", "Κοιλιά", "Πλάτη", "Ώμοι", "Μπικίνι", "Γλουτοί", "Κνήμες", "Γάμπες", "Πόδια", "Αυτιά", "Αυχένας", "Μούσι", "Full Body"
+                }.OrderBy(x => x).ToList();
         }
 
         #endregion HTML Functionality
