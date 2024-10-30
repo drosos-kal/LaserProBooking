@@ -22,6 +22,7 @@ namespace BeautySalonBookingSystem.Models.Entities
         public string PostalCode { get; set; }
         public string AdditionalComments { get; set; }
         public string TherapyPlan { get; set; }
+        public string SkinPhototype { get; set; }
         public List<Therapy> Therapies { get; set; }
 
 

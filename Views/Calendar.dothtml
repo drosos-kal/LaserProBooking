@@ -11,7 +11,7 @@
     <div class="row">
 
         <%-- Calendar --%>
-        <div class="col-md-7 m-4">
+        <div id="calendarContainer" class="col-md-7 m-4">
             <div ID='calendar' />
         </div>
 
@@ -550,7 +550,7 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <table ID="customerTable" class="display">
+                        <table ID="customerTable" class="display" style="width: 100% !important;">
                             <thead>
                                 <tr>
                                     <th></th>

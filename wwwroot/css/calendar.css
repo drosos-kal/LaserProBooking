@@ -86,3 +86,7 @@ button {
 .beam-input {
     background: #ffff;
 }
+
+.fc-event-time {
+    width: 50px;
+}

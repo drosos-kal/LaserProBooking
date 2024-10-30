@@ -24,6 +24,7 @@ namespace BeautySalonBookingSystem.Models.DTO
         public string PostalCode { get; set; }
         public string AdditionalComments { get; set; }
         public string TherapyPlan { get; set; }
+        public string SkinPhototype { get; set; }
         public List<TherapyDTO> Therapies { get; set; }
     }
 

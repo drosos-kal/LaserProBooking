@@ -211,6 +211,14 @@
                             <div>
                                 <label class="form-label mt-2">Πακέτα Θεραπείας </label>
                                 <dot:TextBox class="form-control enable-input" Type="MultiLine" Text="{value: ProjectedCustomer.TherapyPlan}" disabled></dot:TextBox>
+                            </div> 
+                            <div>
+                                <div class="col-md-3 mt-2 ">
+                                    <label class="form-label">Φωτότυπος Επιδερμίδας</label>
+                                    <dot:ComboBox class="form-select enable-input" DataSource="{value: SkinPhototypes}"
+                                                  SelectedValue="{value: ProjectedCustomer.SkinPhototype}"
+                                                  EmptyItemText="Επιλέξτε" disabled />
+                                </div>
                             </div>
                         </div>
                     </div>

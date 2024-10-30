@@ -217,6 +217,7 @@ namespace BeautySalonBookingSystem.Services
                 .Set(c => c.AdditionalComments, customerDto.AdditionalComments)
                 .Set(c => c.Medication, customerDto.Medication)
                 .Set(c => c.TherapyPlan, customerDto.TherapyPlan)
+                .Set(c => c.SkinPhototype, customerDto.SkinPhototype)
                 .Set(c => c.Therapies, therapies);
             var result = await _customersCollection.UpdateOneAsync(filter, update);
         }
@@ -249,6 +250,7 @@ namespace BeautySalonBookingSystem.Services
                 Medication = customer.Medication,
                 AdditionalComments = customer.AdditionalComments,
                 TherapyPlan = customer.TherapyPlan,
+                SkinPhototype = customer.SkinPhototype,
                 Therapies = therapies
             };
 
@@ -282,6 +284,7 @@ namespace BeautySalonBookingSystem.Services
                 Medication = customerDto.Medication,
                 AdditionalComments = customerDto.AdditionalComments,
                 TherapyPlan = customerDto.TherapyPlan,
+                SkinPhototype = customerDto.SkinPhototype,
                 Therapies = therapies
             };
         }

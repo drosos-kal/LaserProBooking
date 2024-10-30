@@ -18,6 +18,7 @@ namespace BeautySalonBookingSystem.ViewModels
         public List<TherapyDTO> ProjectedTherapyList { get; set; } = new List<TherapyDTO>();
         public string IdToPopulate { get; set; } = "";
         public List<GenderEnumProjection> ComboBoxGenders { get; set; } = new List<GenderEnumProjection>();
+        public List<string> SkinPhototypes { get; set; } = new List<string> {"2", "3", "4", "5" };
 
         private readonly CustomerService _customerService;
         public CustomersViewModel(CustomerService customerService)
@@ -58,7 +59,7 @@ namespace BeautySalonBookingSystem.ViewModels
                 customerFromDb = ProjectedCustomer;
             }
 
-           await _customerService.UpdateCustomer(customerFromDb);
+            await _customerService.UpdateCustomer(customerFromDb);
         }
 
         public async Task PopulateModal()

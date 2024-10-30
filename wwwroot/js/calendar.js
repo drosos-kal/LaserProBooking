@@ -68,10 +68,12 @@ function LoadCalendar() {
         eventTimeFormat: {
             hour: '2-digit',
             minute: '2-digit',
-            meridiem: false
+            //meridiem: false,
+            hour12: false
         },
         eventDisplay: "block",
         dateClick: function (info) {
+            //$('#calendarContainer').removeClass('col-md-10').addClass('col-md-7');
             $('#clearFormBtn').trigger('click');
             $('#editTherapyForm').hide();
 
@@ -129,12 +131,11 @@ function LoadCustomersDataTable() {
             }
         },
         columns: [
-            { data: 'Firstname', title: 'Όνομα' },
             { data: 'Lastname', title: 'Επώνυμο' },
+            { data: 'Firstname', title: 'Όνομα' },
             { data: 'MobileNumber', title: 'Κινητό τηλ.' },
             { data: 'Age', title: 'Ημ. Γέννησης' },
             { data: 'Email', title: 'E-mail' },
-            { data: 'Medication', title: 'Αγωγή' }
         ],
         columnDefs: [
             {
