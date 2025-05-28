@@ -11,6 +11,8 @@ namespace BeautySalonBookingSystem.Models.DTO
         public string Id { get; set; }
         public List<TherapyAreaDTO> TherapyAreas { get; set; } = new List<TherapyAreaDTO>();
         public string TherapistName { get; set; }
+        public string AppointmentType { get; set; }
+
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string AdditionalComments { get; set; }

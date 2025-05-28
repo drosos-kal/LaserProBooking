@@ -11,6 +11,7 @@ namespace BeautySalonBookingSystem.Models.Entities
     {
         public ObjectId Id { get; set; }  // This would be the MongoDB ObjectId
         public string Title { get; set; }
+        public string AppointmentType { get; set; }
         public List<TherapyArea> TherapyAreas { get; set; }
         public string TherapistName { get; set; }
         public DateTime StartDate { get; set; }

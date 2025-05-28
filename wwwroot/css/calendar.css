@@ -88,5 +88,5 @@ button {
 }
 
 .fc-event-time {
-    width: 50px;
+    min-width: 45px;
 }

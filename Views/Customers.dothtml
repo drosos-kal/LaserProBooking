@@ -240,6 +240,7 @@
                                     </dot:Repeater>
                                 </ContentTemplate>
                             </dot:GridViewTemplateColumn>
+                            <dot:GridViewTextColumn ValueBinding="{value: AppointmentType}" HeaderText="ΕΙΔΟΣ ΘΕΡΑΠΕΙΑΣ" />
                             <dot:GridViewTextColumn ValueBinding="{value: StartDate}" FormatString="dd/MM/yy HH:mm" HeaderText="ΗΜΕΡΟΜΗΝΙΑ" />
                             <dot:GridViewTemplateColumn HeaderText="ΜΕΓΕΘΟΣ ΔΕΣΜΗΣ">
                                 <ContentTemplate>

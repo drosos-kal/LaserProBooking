@@ -29,6 +29,7 @@ namespace BeautySalonBookingSystem.ViewModels
         public List<GenderEnumProjection> ComboBoxGenders { get; set; } = new List<GenderEnumProjection>();
         public List<string> TherapistList { get; set; } = new List<string> { "Ηλιάνα", "Μελίνα" };
         public List<string> TherapyTypes { get; set; }
+        public List<string> AppointmentTypes { get; set; } = new List<string> { "Κανονικό", "Επαναληπτικό" };
 
         // DI
         private readonly CustomerService _customerService;
@@ -100,6 +101,7 @@ namespace BeautySalonBookingSystem.ViewModels
             therapyFromDb.StartDate = ProjectedTherapy.StartDate;
             therapyFromDb.AdditionalComments = ProjectedTherapy.AdditionalComments;
             therapyFromDb.TherapyAreas = ProjectedTherapy.TherapyAreas;
+            therapyFromDb.AppointmentType = ProjectedTherapy.AppointmentType;
 
             await _customerService.UpdateTherapyAsync(customerId, therapyFromDb);
             Context.RedirectToRoute("Calendar");
@@ -192,7 +194,7 @@ namespace BeautySalonBookingSystem.ViewModels
         {
             return new List<string>
                 {
-                    "Μουστάκι", "Πρόσωπο", "Μασχάλες", "Στήθος", "Χέρια", "Κοιλιά", "Πλάτη", "Ώμοι", "Μπικίνι", "Γλουτοί", "Κνήμες", "Γάμπες", "Πόδια", "Αυτιά", "Αυχένας", "Μούσι", "Full Body"
+                    "Μουστάκι", "Πρόσωπο", "Μασχάλες", "Στήθος", "Χέρια", "Κοιλιά", "Πλάτη", "Ώμοι", "Μπικίνι", "Γλουτοί", "Κνήμες", "Γάμπες", "Πόδια", "Αυτιά", "Αυχένας", "Μούσι", "Full Body", "Μέση", "Θηλές", "Γραμμή Κοιλιάς", "Έσω γλουτοί", "Πηγούνι"
                 }.OrderBy(x => x).ToList();
         }
 

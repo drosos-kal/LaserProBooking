@@ -297,6 +297,7 @@ namespace BeautySalonBookingSystem.Services
 
                 Id = therapy.Id.ToString(),
                 TherapistName = therapy.TherapistName,
+                AppointmentType = therapy.AppointmentType,
                 StartDate = therapy.StartDate.ToLocalTime(),
                 EndDate = therapy.EndDate.ToLocalTime().AddMinutes(30),
                 AdditionalComments = therapy.AdditionalComments,
@@ -320,6 +321,7 @@ namespace BeautySalonBookingSystem.Services
             {
                 Id = string.IsNullOrEmpty(therapyDto.Id) ? ObjectId.GenerateNewId() : new ObjectId(therapyDto.Id),
                 TherapistName = therapyDto.TherapistName,
+                AppointmentType = therapyDto.AppointmentType,
                 StartDate = therapyDto.StartDate,
                 EndDate = therapyDto.EndDate,
                 AdditionalComments = therapyDto.AdditionalComments,
