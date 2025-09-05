@@ -96,13 +96,15 @@ namespace BeautySalonBookingSystem.Services
                 .Set("Therapies.$.StartDate", therapyDto.StartDate.ToUniversalTime())
                 .Set("Therapies.$.EndDate", therapyDto.StartDate.AddMinutes(30))
                 .Set("Therapies.$.AdditionalComments", therapyDto.AdditionalComments)
+                .Set("Therapies.$.AppointmentType", therapyDto.AppointmentType)
                 .Set("Therapies.$.TherapyAreas", therapyDto.TherapyAreas.Select(area => new
                 {
                     AreaName = area.AreaName,
                     BeamDiameter = area.BeamDiameter,
                     Pulses = area.Pulses,
                     Price = area.Price,
-                    Energy = area.Energy
+                    Energy = area.Energy,
+                    
                 }).ToList());
 
             var result = await _customersCollection.UpdateOneAsync(filter, update);
